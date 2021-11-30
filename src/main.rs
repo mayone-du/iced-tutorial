@@ -33,9 +33,12 @@ impl Sandbox for Counter {
         String::from("Counter - Iced")
     }
 
+    // Messageを受け取ったときに実行さ数れる関
     fn update(&mut self, message: Message) {
+        // match式で、Messageがマッチするブロックを実行
         match message {
             Message::IncrementPressed => {
+                // &mutなselfを受け取っているので、self.valueの値を1増やす
                 self.value += 1;
             }
             Message::DecrementPressed => {
