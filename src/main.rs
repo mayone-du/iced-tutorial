@@ -11,6 +11,7 @@ struct Counter {
     value: i32,
     increment_button: button::State,
     decrement_button: button::State,
+    double_button: button::State,
 }
 
 // ユーザーの操作によるメッセージ。イベントの定義。
@@ -18,6 +19,7 @@ struct Counter {
 enum Message {
     IncrementPressed,
     DecrementPressed,
+    DoublePressed,
 }
 
 impl Sandbox for Counter {
@@ -44,6 +46,9 @@ impl Sandbox for Counter {
             Message::DecrementPressed => {
                 self.value -= 1;
             }
+            Message::DoublePressed => {
+                self.value *= 2;
+            }
         }
     }
 
@@ -63,6 +68,10 @@ impl Sandbox for Counter {
             .push(
                 Button::new(&mut self.decrement_button, Text::new("Decrement"))
                     .on_press(Message::DecrementPressed),
+            )
+            .push(
+                Button::new(&mut self.double_button, Text::new("Double"))
+                    .on_press(Message::DoublePressed),
             )
             .into()
     }
