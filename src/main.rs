@@ -1,4 +1,4 @@
-use iced::{button, Button, Column, Element, Sandbox, Settings, Text};
+use iced::{button, Button, Color, Column, Element, Sandbox, Settings, Text};
 
 // 実行時に呼ばれるmain関数
 pub fn main() -> iced::Result {
@@ -12,6 +12,7 @@ struct Counter {
     increment_button: button::State,
     decrement_button: button::State,
     double_button: button::State,
+    reset_button: button::State,
 }
 
 // ユーザーの操作によるメッセージ。イベントの定義。
@@ -20,6 +21,7 @@ enum Message {
     IncrementPressed,
     DecrementPressed,
     DoublePressed,
+    ResetPressed,
 }
 
 impl Sandbox for Counter {
@@ -49,6 +51,9 @@ impl Sandbox for Counter {
             Message::DoublePressed => {
                 self.value *= 2;
             }
+            Message::ResetPressed => {
+                self.value = 0;
+            }
         }
     }
 
@@ -72,6 +77,13 @@ impl Sandbox for Counter {
             .push(
                 Button::new(&mut self.double_button, Text::new("Double"))
                     .on_press(Message::DoublePressed),
+            )
+            .push(
+                Button::new(
+                    &mut self.reset_button,
+                    Text::new("Reset").color(Color::from_rgb(100.0, 100.0, 0.0)),
+                )
+                .on_press(Message::ResetPressed),
             )
             .into()
     }
