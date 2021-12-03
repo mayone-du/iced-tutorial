@@ -16,21 +16,17 @@ struct Counter {
     double_button: button::State,
     reset_button: button::State,
     text_input: text_input::State,
+    input_value: String,
 }
 
 // ユーザーの操作によるメッセージ。イベントの定義。
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 enum Message {
     IncrementPressed,
     DecrementPressed,
     DoublePressed,
     ResetPressed,
-    TextChanged,
-}
-
-#[derive(Debug, Clone)]
-enum TextChanged {
-    DataChanged(String),
+    InputChanged(String),
 }
 
 impl Sandbox for Counter {
@@ -63,8 +59,8 @@ impl Sandbox for Counter {
             Message::ResetPressed => {
                 self.value = 0;
             }
-            Message::TextChanged => {
-                self.text_input = text_input::State::new();
+            Message::InputChanged(value) => {
+                self.input_value = value;
             }
         }
     }
@@ -100,8 +96,8 @@ impl Sandbox for Counter {
             .push(TextInput::new(
                 &mut self.text_input,
                 "Enter a number",
-                "hoge",
-                Message::TextChanged,
+                &mut self.input_value,
+                Message::InputChanged,
             ))
             .into()
     }
