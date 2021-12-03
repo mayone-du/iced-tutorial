@@ -25,7 +25,12 @@ enum Message {
     DecrementPressed,
     DoublePressed,
     ResetPressed,
-    TextInputChanged,
+    TextChanged,
+}
+
+#[derive(Debug, Clone)]
+enum TextChanged {
+    DataChanged(String),
 }
 
 impl Sandbox for Counter {
@@ -58,7 +63,7 @@ impl Sandbox for Counter {
             Message::ResetPressed => {
                 self.value = 0;
             }
-            Message::TextInputChanged => {
+            Message::TextChanged => {
                 self.text_input = text_input::State::new();
             }
         }
@@ -93,10 +98,10 @@ impl Sandbox for Counter {
                 .on_press(Message::ResetPressed),
             )
             .push(TextInput::new(
-                &mut self.value,
+                &mut self.text_input,
                 "Enter a number",
-                &mut self.value,
-                TextInputChanged,
+                "hoge",
+                Message::TextChanged,
             ))
             .into()
     }
